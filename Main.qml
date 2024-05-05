@@ -6,6 +6,7 @@ ApplicationWindow {
     width: 200
     height: 90
     visible: true
+    flags: Qt.WindowStaysOnTopHint
 
     title: qsTr("Focus Assist")
     Rectangle {
@@ -33,15 +34,18 @@ ApplicationWindow {
             }
 
             Row {
+                Layout.alignment: Qt.AlignRight;
                 Button{
                     icon.source: "media/weird-horsecoint.png"
                     icon.color: "transparent"
+                    width: 40;
+                    height: 40;
                 }
 
                 Button{
                     icon.name: "pause"
-                    icon.source: "media/weird-horsecoint.png"
-                    icon.color: "red"
+                    width: 40;
+                    height: 40;
                 }
             }
 
@@ -53,8 +57,7 @@ ApplicationWindow {
             anchors.left: parent.left;
             anchors.right:parent.right;
             Rectangle {
-                anchors.left: parent.left;
-                anchors.right:parent.right;
+                width: Window.width * 0.1;
                 id: timeLeftBar;
                 color: "#eeabd0";
                 height: 10;
