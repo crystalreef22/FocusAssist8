@@ -1,11 +1,14 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "tasktimer.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-
     QQmlApplicationEngine engine;
+
+    qmlRegisterType<TaskTimer>("tasktimer", 1, 0, "TaskTimer");
+
     const QUrl url(QStringLiteral("qrc:/FocusAssist8/Main.qml"));
     QObject::connect(
         &engine,

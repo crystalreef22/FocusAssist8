@@ -19,6 +19,8 @@ qt_add_qml_module(appFocusAssist8
         Main.qml
     RESOURCES
         media/weird-horsecoint.png
+        SOURCES tasktimer.h tasktimer.cpp
+        QML_FILES
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
