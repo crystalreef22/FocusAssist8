@@ -25,7 +25,7 @@ ApplicationWindow {
             Column {
                 Layout.alignment: Qt.AlignHCenter;
                 Text{
-                    text: "25:00";
+                    text: tasktimer.display;
                     horizontalAlignment: Text.AlignHCenter
                     anchors.horizontalCenter: parent.horizontalCenter
                     font.pointSize: 24;
@@ -40,39 +40,17 @@ ApplicationWindow {
 
             Row {
                 Layout.alignment: Qt.AlignRight;
-                Button{
-                    id: btnTimerStart
-                    icon.source: "media/weird-horsecoint.png"
-                    icon.color: "transparent"
-                    text: "Start"
-                    width: 40
-                    height: 40
 
-                    onClicked: {
-                        console.log("Start")
-                    }
-                }
-
-                Button{
-                    id: btnTimerStop
-                    icon.source: "media/weird-horsecoint.png"
-                    icon.color: "transparent"
-                    text:"Stop"
-                    width: 40
-                    height: 40
-
-                    onClicked: {
-                        console.log("Pause")
-                    }
-                }
-
-                Button{
+                Button {
                     id: btnTimerPause
-                    icon.name: "pause"
+                    icon.name: "pause" ;
                     width: 40;
                     height: 40;
+
+
                     onClicked: {
-                        console.log("PauseToggle")
+                        console.log("PauseToggle");
+                        tasktimer.togglePause();
                     }
                 }
 
@@ -81,6 +59,7 @@ ApplicationWindow {
                     text: "Cancel"
                     onClicked: {
                         console.log("Cancelled")
+                        tasktimer.reset()
                     }
                 }
                 Button {
@@ -88,6 +67,7 @@ ApplicationWindow {
                     text: "Set"
                     onClicked: {
                         console.log("Set time to 5 secs")
+                        tasktimer.timerLength = 5;
 
                     }
                 }
