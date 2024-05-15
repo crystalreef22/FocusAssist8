@@ -19,6 +19,7 @@ qt_add_qml_module(appFocusAssist8
         Main.qml
     RESOURCES
         media/weird-horsecoint.png
+        media/Decayingwaves.mp3
         SOURCES tasktimer.h tasktimer.cpp
         QML_FILES
 )
@@ -37,6 +38,7 @@ set_target_properties(appFocusAssist8 PROPERTIES
 target_link_libraries(appFocusAssist8
     PRIVATE Qt6::Quick
 )
+
 
 include(GNUInstallDirs)
 install(TARGETS appFocusAssist8

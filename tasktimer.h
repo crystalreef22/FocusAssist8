@@ -15,6 +15,7 @@ class TaskTimer : public QObject
     Q_PROPERTY(double timerLength READ timerLength WRITE setTimerLength NOTIFY timerLengthChanged FINAL)
     Q_PROPERTY(QString display READ display WRITE setDisplay NOTIFY displayChanged FINAL)
     Q_PROPERTY(bool running READ running NOTIFY runningChanged FINAL)
+    Q_PROPERTY(bool expired READ expired NOTIFY expiredChanged FINAL)
 
 public:
     explicit TaskTimer(QObject *parent = nullptr);
@@ -30,6 +31,7 @@ signals:
     void displayChanged();
     void timerLengthChanged();
     void runningChanged();
+    void expiredChanged();
 
 private:
     QTimer m_timer;
@@ -38,6 +40,7 @@ private:
     QString m_display;
     double m_timerLength;
     bool m_running;
+    bool m_expired;
 
     double last_elapsed;
 
@@ -47,6 +50,7 @@ private:
     QString display();
     void setDisplay(QString value);
     bool running();
+    bool expired();
 
 };
 

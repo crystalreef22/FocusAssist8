@@ -2,10 +2,11 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import tasktimer 1.0
+import QtMultimedia
 
 ApplicationWindow {
     width: 200; height: 90;
-    minimumWidth: 150; minimumHeight: 90;
+    minimumWidth: 150; minimumHeight: 80;
     visible: true
     flags: Qt.WindowStaysOnTopHint
     title: qsTr("Focus Assist")
@@ -14,14 +15,34 @@ ApplicationWindow {
         id: tasktimer;
     }
 
+    MediaPlayer {
+        id: expiredNotifier;
+        audioOutput: AudioOutput {}
+        source: "media/Decayingwaves.mp3"
+        loops: 3;//MediaPlayer.Infinite;
+    }
+
+    Connections {
+        target: tasktimer
+        function onExpiredChanged() {
+            if (tasktimer.expired) {
+                expiredNotifier.play()
+                console.log("expired sound play")
+            } else {
+                expiredNotifier.stop()
+            }
+        }
+    }
+
     Rectangle {
         anchors.fill: parent;
-        color: "#ffeedd";
+        color: tasktimer.expired ? "#ff0000" : "#ffeedd";
         ColumnLayout{
             id: mainDisplay;
             anchors.left: parent.left;
             anchors.right:parent.right;
             anchors.top:parent.top;
+
             Column {
                 Layout.alignment: Qt.AlignHCenter;
                 Text{
@@ -43,7 +64,7 @@ ApplicationWindow {
 
                 Button {
                     id: btnTimerPause
-                    icon.name: "pause" ;
+                    icon.name: "pause";
                     width: 40;
                     height: 40;
 
@@ -66,8 +87,8 @@ ApplicationWindow {
                     id: btnTimerSetTime
                     text: "Set"
                     onClicked: {
-                        console.log("Set time to 5 secs")
-                        tasktimer.timerLength = 5;
+                        console.log("Set time to 25min")
+                        tasktimer.timerLength = 15 * 60 * 1000;
 
                     }
                 }
@@ -88,5 +109,6 @@ ApplicationWindow {
                 height: 10;
             }
         }
+
     }
 }
