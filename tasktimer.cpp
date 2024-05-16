@@ -15,10 +15,12 @@ TaskTimer::TaskTimer(QObject *parent)
 // ************************* SLOTS *********************
 
 void TaskTimer::start(){
-    if (m_timer.isActive()){
+    if (m_running){
         qWarning("TaskTimer.cpp: Tried to start while running. Did not run");
         return;
     }
+    m_running = true;
+    emit runningChanged();
     qInfo("TaskTimer.cpp: started");
     this->m_timer.start(200); // setInterval of timer to 200 ms between ticks
     this->m_watch.restart();
@@ -26,10 +28,12 @@ void TaskTimer::start(){
 }
 
 void TaskTimer::stop(){
-    if (!m_timer.isActive()) {
+    if (!m_running) {
         qWarning("TaskTimer.cpp: Tried to stop when already stopped. Did not run");
         return;
     }
+    m_running = false;
+    emit runningChanged();
     qInfo("TaskTimer.cpp: stopped");
     m_timer.stop();
     last_elapsed += m_watch.elapsed();
@@ -43,16 +47,13 @@ void TaskTimer::reset(){
     m_timer.stop();
     m_running = false;
     emit runningChanged();
-    updateDisplay(true);
-    emit displayChanged();
     m_expired = false;
     emit expiredChanged();
+    updateDisplay();
+    emit displayChanged();
 }
 
 void TaskTimer::togglePause(){
-    m_running = !m_running;
-    emit runningChanged();
-    qInfo() << "TaskTimer.cpp: toggled running:" << m_running;
 
     if(m_expired){
         this->reset();
@@ -61,9 +62,9 @@ void TaskTimer::togglePause(){
     }
 
     if(m_running) {
-        this->start();
-    } else {
         this->stop();
+    } else {
+        this->start();
     }
 }
 
@@ -90,9 +91,19 @@ void TaskTimer::timeout(){
 
 // ****************************************************
 
-void TaskTimer::updateDisplay(bool reset) {
-    if (reset)
-        setDisplay("00:00");
+void TaskTimer::updateDisplay() {
+    long long remaining = timerLength();
+    if (m_running){
+        remaining -= (m_watch.elapsed() + last_elapsed);
+    }
+    bool timerExpired = remaining < 0;
+    long long remainingSecs = timerExpired ? 0 : (remaining+999)/ 1000;
+    long long hours = remainingSecs/3600;
+    long long minutes = (remainingSecs/60)%60;
+    long long seconds = (remainingSecs)%60;
+    QString time = QString("%3:%2:%1").arg(seconds, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0')).arg(hours);
+    setDisplay(time);
+    emit displayChanged();
 }
 
 double TaskTimer::timerLength(){
@@ -101,6 +112,11 @@ double TaskTimer::timerLength(){
 
 void TaskTimer::setTimerLength(double value){
     m_timerLength = value;
+
+    if(m_timerLength < 0)
+        m_timerLength = 0;
+
+    this->updateDisplay();
 }
 
 QString TaskTimer::display(){
@@ -118,3 +134,9 @@ bool TaskTimer::running(){
 bool TaskTimer::expired(){
     return m_expired;
 }
+
+double TaskTimer::timeLeftFraction(){
+    long long remaining = timerLength() - (m_watch.elapsed() + last_elapsed);
+    return fmax(remaining / timerLength(), 0.0);
+}
+

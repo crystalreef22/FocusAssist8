@@ -77,21 +77,41 @@ ApplicationWindow {
 
                 Button {
                     id: btnTimerCancel
-                    text: "Cancel"
+                    icon.source: "media/weird-horsecoint.png";
+                    icon.color: "transparent";
                     onClicked: {
                         console.log("Cancelled")
                         tasktimer.reset()
                     }
                 }
-                Button {
+                /*Button {
                     id: btnTimerSetTime
                     text: "Set"
                     onClicked: {
-                        console.log("Set time to 25min")
+                        console.log("Set time to 15min")
                         tasktimer.timerLength = 15 * 60 * 1000;
 
                     }
+                }*/
+                Button {
+                    id: btnTimerAddTime
+                    text: "+"
+                    onClicked: {
+                        console.log("Add to time 1 minute")
+                        tasktimer.timerLength += 60 * 1000;
+
+                    }
                 }
+                Button {
+                    id: btnTimerSubTime
+                    text: "-"
+                    onClicked: {
+                        console.log("remove from time 1 minute")
+                        tasktimer.timerLength -=  60 * 1000;
+
+                    }
+                }
+
 
             }
 
@@ -103,7 +123,7 @@ ApplicationWindow {
             anchors.left: parent.left;
             anchors.right:parent.right;
             Rectangle {
-                width: Window.width * 0.1;
+                width: Window.width * tasktimer.timeLeftFraction;
                 id: timeLeftBar;
                 color: "#eeabd0";
                 height: 10;
