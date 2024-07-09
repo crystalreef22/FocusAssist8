@@ -1,15 +1,18 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Dialogs
 import tasktimer 1.0
 import QtMultimedia
 
 ApplicationWindow {
+    id: root
     width: 200; height: 90;
     minimumWidth: 150; minimumHeight: 80;
     visible: true
     flags: Qt.WindowStaysOnTopHint
     title: qsTr("Focus Assist")
+   property bool closingAllowed: false
 
     TaskTimer {
         id: tasktimer;
@@ -32,6 +35,32 @@ ApplicationWindow {
                 expiredNotifier.stop()
             }
         }
+    }
+
+    TimeSelectDialog {
+        id: timeSelectDialog;
+        transientParent: root
+        onChosen: {
+            console.log(choiceTime)
+            tasktimer.timerLength = choiceTime * 1000;
+        }
+    }
+
+    onClosing: function(close) {
+        if(!closingAllowed) {
+            closeDialog.open();
+        }
+
+        close.accepted = closingAllowed;
+    }
+
+    MessageDialog {
+        id: closeDialog
+        text: "ARE YOU SURE?"
+        informativeText: "Click OK to close window"
+        buttons: MessageDialog.Ok | MessageDialog.Cancel
+
+        onAccepted: {closingAllowed = true; Qt.quit();}
     }
 
     Rectangle {
@@ -111,6 +140,11 @@ ApplicationWindow {
 
                     }
                 }
+                Button {
+                    id: btnTimeSelectDialog
+                    text: "sea"
+                    onClicked: { timeSelectDialog.visible = true; }
+                }
 
 
             }
@@ -132,3 +166,4 @@ ApplicationWindow {
 
     }
 }
+

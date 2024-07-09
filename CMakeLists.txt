@@ -22,6 +22,7 @@ qt_add_qml_module(appFocusAssist8
         media/Decayingwaves.mp3
         SOURCES tasktimer.h tasktimer.cpp
         QML_FILES
+        QML_FILES TimeSelectDialog.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
