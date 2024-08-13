@@ -75,13 +75,13 @@ ApplicationWindow {
             Column {
                 Layout.alignment: Qt.AlignHCenter;
                 Text{
-                    text: tasktimer.display;
+                    text: tasktimer.timeLeftDisplay;
                     horizontalAlignment: Text.AlignHCenter
                     anchors.horizontalCenter: parent.horizontalCenter
                     font.pointSize: 24;
                 }
                 Text{
-                    text: "remaining";
+                    text: tasktimer.timeSetDisplay;
                     horizontalAlignment: Text.AlignHCenter
                     anchors.horizontalCenter: parent.horizontalCenter
                     font.pointSize: 12;
