@@ -86,7 +86,7 @@ void TaskTimer::timeout(){
     // qInfo() << "TaskTimer.cpp: tick after" << last_elapsed;
     long long remaining = timerLength() - (m_watch.elapsed() + last_elapsed);
     bool timerExpired = remaining < 0;
-    long long remainingSecs = (timerExpired ? (remaining-999) : (remaining+999)) / 1000;
+    long long remainingSecs = (timerExpired ? (remaining) : (remaining+999)) / 1000;
     m_timeLeftDisplay = secsLeftToString(remainingSecs);
     emit displayChanged();
 
@@ -107,7 +107,7 @@ void TaskTimer::updateDisplay() {
         remaining -= (m_watch.elapsed() + last_elapsed);
     }
     bool timerExpired = remaining < 0;
-    long long remainingSecs = (timerExpired ? (remaining-999) : (remaining+999)) / 1000;
+    long long remainingSecs = (timerExpired ? (remaining) : (remaining+999)) / 1000;
     m_timeLeftDisplay = secsLeftToString(remainingSecs);
     emit displayChanged();
 }
