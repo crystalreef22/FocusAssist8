@@ -13,6 +13,17 @@ Window {
 
     signal chosen(int choiceTime)
 
+    MouseArea {
+        anchors.fill: parent
+        onClicked: forceActiveFocus()
+    } // Click anywhere in window to unfocus currently focused item
+
+    onVisibleChanged: {
+        if (visible) {
+            inputMins.forceActiveFocus(); // Set focus to the TextField when the window is shown
+        }
+    }
+
     Rectangle{
         anchors.fill: parent;
         ColumnLayout{

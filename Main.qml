@@ -14,6 +14,11 @@ ApplicationWindow {
     title: qsTr("Focus Assist")
    property bool closingAllowed: false
 
+    MouseArea {
+        anchors.fill: parent
+        onClicked: forceActiveFocus()
+    } // Click anywhere in window to unfocus currently focused item
+
     TaskTimer {
         id: tasktimer;
     }
@@ -66,6 +71,18 @@ ApplicationWindow {
     Rectangle {
         anchors.fill: parent;
         color: tasktimer.expired ? "#ff0000" : "#ffeedd";
+
+        Rectangle {
+            anchors.bottom: parent.bottom
+            anchors.top: parent.top
+            anchors.left: parent.left
+            width: Window.width * tasktimer.timeLeftFraction;
+            id: timeLeftBar;
+            color: "#eeabd0";
+            height: 10;
+            //antialiasing: true;
+        }
+
         ColumnLayout{
             id: mainDisplay;
             anchors.left: parent.left;
@@ -85,6 +102,27 @@ ApplicationWindow {
                     horizontalAlignment: Text.AlignHCenter
                     anchors.horizontalCenter: parent.horizontalCenter
                     font.pointSize: 12;
+                }
+                TextField {
+                    id: timerName
+                    property string originalText: ""
+
+                    placeholderText: "timer name..."
+
+                    onActiveFocusChanged: {
+                        if (activeFocus) {
+                            originalText = this.text;
+                        }
+                    }
+
+                    Keys.onPressed: function(event){
+                        if (event.key === Qt.Key_Escape) {
+                            this.text = originalText;
+                            this.focus = false;
+                        } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                            this.focus = false;
+                        }
+                    }
                 }
             }
 
@@ -149,19 +187,6 @@ ApplicationWindow {
 
             }
 
-        }
-        Column {
-            id: timeLeftColumn
-            anchors.bottom:parent.bottom;
-            height: 10;
-            anchors.left: parent.left;
-            anchors.right:parent.right;
-            Rectangle {
-                width: Window.width * tasktimer.timeLeftFraction;
-                id: timeLeftBar;
-                color: "#eeabd0";
-                height: 10;
-            }
         }
 
     }
