@@ -7,7 +7,7 @@ import QtMultimedia
 
 ApplicationWindow {
     id: root
-    width: 200; height: 90;
+    width: 200; height: 110;
     minimumWidth: 150; minimumHeight: 80;
     visible: true
     flags: Qt.WindowStaysOnTopHint
@@ -80,7 +80,7 @@ ApplicationWindow {
             id: timeLeftBar;
             color: "#eeabd0";
             height: 10;
-            //antialiasing: true;
+            antialiasing: true;
         }
 
         ColumnLayout{
@@ -129,12 +129,9 @@ ApplicationWindow {
             Row {
                 Layout.alignment: Qt.AlignRight;
 
-                Button {
+                MyButton {
                     id: btnTimerPause
-                    icon.name: "pause";
-                    width: 40;
-                    height: 40;
-
+                    iconSource: "media/pause.png";
 
                     onClicked: {
                         console.log("PauseToggle");
@@ -142,25 +139,15 @@ ApplicationWindow {
                     }
                 }
 
-                Button {
+                MyButton {
                     id: btnTimerCancel
-                    icon.source: "media/weird-horsecoint.png";
-                    icon.color: "transparent";
+                    iconSource: "media/weird-horsecoint.png";
                     onClicked: {
                         console.log("Cancelled")
                         tasktimer.reset()
                     }
                 }
-                /*Button {
-                    id: btnTimerSetTime
-                    text: "Set"
-                    onClicked: {
-                        console.log("Set time to 15min")
-                        tasktimer.timerLength = 15 * 60 * 1000;
-
-                    }
-                }*/
-                Button {
+                MyButton {
                     id: btnTimerAddTime
                     text: "+"
                     onClicked: {
@@ -169,7 +156,7 @@ ApplicationWindow {
 
                     }
                 }
-                Button {
+                MyButton {
                     id: btnTimerSubTime
                     text: "-"
                     onClicked: {
@@ -178,7 +165,7 @@ ApplicationWindow {
 
                     }
                 }
-                Button {
+                MyButton {
                     id: btnTimeSelectDialog
                     text: "sea"
                     onClicked: { timeSelectDialog.visible = true; }
