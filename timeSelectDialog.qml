@@ -70,9 +70,9 @@ Window {
                     onClicked: {
                         forceActiveFocus()
 
-                        timeSelectDialog.chosen(inputHours.value*1440+inputMins.value*60+inputSecs.value)
+                        timeSelectDialog.chosen(inputHours.value*3600+inputMins.value*60+inputSecs.value)
                         console.log("Ok clicked")
-                        console.log(inputHours.value*1440+inputMins.value*60+inputSecs.value)
+                        console.log(inputHours.value*3600+inputMins.value*60+inputSecs.value)
                         timeSelectDialog.visible = false;
                     }
                 }
