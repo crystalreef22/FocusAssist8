@@ -170,6 +170,13 @@ ApplicationWindow {
                     text: "sea"
                     onClicked: { timeSelectDialog.visible = true; }
                 }
+                MyButton {
+                    id: btnUselessFocusWindow
+                    iconSource: "media/anotherday.png"
+                    onClicked: {            var component = Qt.createComponent("UselessFocusWindow.qml")
+                        var window    = component.createObject(root)
+                        window.show()}
+                }
 
 
             }

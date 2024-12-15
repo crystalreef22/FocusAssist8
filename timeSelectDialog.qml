@@ -24,6 +24,10 @@ Window {
         }
     }
 
+    UselessFocusWindow {
+visible: true;
+    }
+
     Rectangle{
         anchors.fill: parent;
         ColumnLayout{
