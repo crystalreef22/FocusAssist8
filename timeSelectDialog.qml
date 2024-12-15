@@ -24,9 +24,6 @@ Window {
         }
     }
 
-    UselessFocusWindow {
-visible: true;
-    }
 
     Rectangle{
         anchors.fill: parent;
@@ -65,7 +62,7 @@ visible: true;
                     text: "Cancel"
                     onClicked: {
                         console.log("Cancel clicked")
-                        timeSelectDialog.visible = false;
+                        timeSelectDialog.hide();
                     }
                 }
                 Button{
@@ -77,7 +74,7 @@ visible: true;
                         timeSelectDialog.chosen(inputHours.value*3600+inputMins.value*60+inputSecs.value)
                         console.log("Ok clicked")
                         console.log(inputHours.value*3600+inputMins.value*60+inputSecs.value)
-                        timeSelectDialog.visible = false;
+                        timeSelectDialog.hide();
                     }
                 }
             }

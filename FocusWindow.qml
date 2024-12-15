@@ -3,21 +3,28 @@ import QtQuick 2.15
 Window {
     id:uselessFocusWindow
     title: "FOCUS!"
+    flags: Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint;
     //flags: Qt.Dialog
     //modality: Qt.ApplicationModal
-    width: 200;
-    height: 100;
-    x: (Screen.width-width)*Math.random()
-    y: (Screen.height-height)*Math.random()
+    width: Screen.width;
+    height: Screen.height;
     minimumWidth: width; maximumWidth: width; minimumHeight: height; maximumHeight: height;
+    x: 0;y:0;
+
 
     MouseArea {
+        id: mousearea;
         anchors.fill: parent
-        onClicked: uselessFocusWindow.close();
+        onPressAndHold: function(mouse) {
+            if (mouse.button === Qt.LeftButton) {
+                //uselessFocusWindow.close();
+                uselessFocusWindow.hide();
+            }
+        }
     } // Click anywhere in window to dismiss
     Rectangle {
         anchors.fill: parent;
-        color: "#000000";
+        color: mousearea.pressed ? "#333333" : "#000000";
         Text {
             anchors.centerIn: parent
             text: "FOCUS!!"

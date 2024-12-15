@@ -12,7 +12,7 @@ ApplicationWindow {
     visible: true
     flags: Qt.WindowStaysOnTopHint
     title: qsTr("Focus Assist")
-   property bool closingAllowed: false
+    property bool closingAllowed: false
 
     MouseArea {
         anchors.fill: parent
@@ -50,6 +50,7 @@ ApplicationWindow {
             tasktimer.timerLength = choiceTime * 1000;
         }
     }
+    FocusWindow{id: focusWindow}
 
     onClosing: function(close) {
         if(!closingAllowed) {
@@ -168,14 +169,19 @@ ApplicationWindow {
                 MyButton {
                     id: btnTimeSelectDialog
                     text: "sea"
-                    onClicked: { timeSelectDialog.visible = true; }
+                    onClicked: { timeSelectDialog.show(); }
                 }
                 MyButton {
                     id: btnUselessFocusWindow
                     iconSource: "media/anotherday.png"
+                    /*
                     onClicked: {            var component = Qt.createComponent("UselessFocusWindow.qml")
                         var window    = component.createObject(root)
                         window.show()}
+                    */
+                    onClicked: {
+                        focusWindow.show();
+                    }
                 }
 
 

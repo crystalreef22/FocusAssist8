@@ -1,11 +1,16 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "tasktimer.h"
+#include <QStyleHints>
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+    app.styleHints()->setColorScheme(Qt::ColorScheme::Light);
+#endif
 
     qmlRegisterType<TaskTimer>("tasktimer", 1, 0, "TaskTimer");
 
