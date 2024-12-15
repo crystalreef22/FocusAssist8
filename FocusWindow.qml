@@ -18,6 +18,7 @@ Window {
         onPressAndHold: function(mouse) {
             uselessFocusWindow.hide();
         }
+        cursorShape: Qt.BlankCursor;
     } // Click anywhere in window to dismiss
     Rectangle {
         anchors.fill: parent;
