@@ -13,13 +13,9 @@ Window {
 
     signal chosen(int choiceTime)
 
-    MouseArea {
-        anchors.fill: parent
-        onClicked: forceActiveFocus()
-    } // Click anywhere in window to unfocus currently focused item
-
     onVisibleChanged: {
         if (visible) {
+            inputHours.value = 0; inputMins.value=0; inputSecs.value=0;
             inputMins.forceActiveFocus(); // Set focus to the TextField when the window is shown
         }
     }
@@ -27,6 +23,17 @@ Window {
 
     Rectangle{
         anchors.fill: parent;
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: forceActiveFocus()
+            KeyNavigation.tab: inputMins
+        } // Click anywhere in window to unfocus currently focused item
+
+        Keys.onEscapePressed: btnReject.clicked();
+        Keys.onReturnPressed: btnAccept.clicked();
+        Keys.onEnterPressed: btnAccept.clicked();
+
         ColumnLayout{
             anchors.left: parent.left
             anchors.right: parent.right
@@ -58,6 +65,7 @@ Window {
             Row{
                 Layout.alignment: Qt.AlignRight;
                 Button{
+                    focusPolicy: Qt.NoFocus
                     id: btnReject
                     text: "Cancel"
                     onClicked: {
@@ -66,6 +74,7 @@ Window {
                     }
                 }
                 Button{
+                    focusPolicy: Qt.NoFocus
                     id: btnAccept
                     text: "Ok"
                     onClicked: {
