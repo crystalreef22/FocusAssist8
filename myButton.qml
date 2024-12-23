@@ -3,6 +3,7 @@ import QtQuick 2.15
 Item {
     id: button;
     property color backgroundColor: "steelblue"
+    property color focusColor: "lightblue"
     property color textColor: "black"
     property string text: ""
     property font font: Qt.font({ pointSize:11 })
@@ -10,9 +11,10 @@ Item {
     signal clicked()
     implicitHeight: 32;
     implicitWidth: 32;
+    activeFocusOnTab: true
 
     Rectangle{
-        color: button.backgroundColor;
+        color: parent.activeFocus ? button.focusColor : button.backgroundColor
         anchors.fill: parent;
         anchors.margins: 1 // This creates the padding effect
         radius: 5;
@@ -43,4 +45,8 @@ Item {
             button.clicked();
         }
     }
+    Keys.onReturnPressed: button.clicked();
+    Keys.onEnterPressed: button.clicked();
+    Keys.onSpacePressed: button.clicked();
+
 }
