@@ -25,10 +25,11 @@ ApplicationWindow {
 
     MediaPlayer {
         id: expiredNotifier;
-        audioOutput: AudioOutput {}
+        audioOutput: AudioOutput { device: mediaDevices.defaultAudioOutput }
         source: "media/Decayingwaves.mp3"
         loops: 3;//MediaPlayer.Infinite;
     }
+    MediaDevices { id: mediaDevices }
 
     Connections {
         target: tasktimer
@@ -196,7 +197,6 @@ ApplicationWindow {
                 }
 
             }
-
         }
 
     }
