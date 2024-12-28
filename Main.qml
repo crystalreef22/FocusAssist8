@@ -13,6 +13,7 @@ ApplicationWindow {
     flags: Qt.WindowStaysOnTopHint
     title: qsTr("Focus Assist")
     property bool closingAllowed: false
+    property bool muteBtnInsteadOfPause: false
 
     MouseArea {
         anchors.fill: parent
@@ -35,9 +36,11 @@ ApplicationWindow {
         function onExpiredChanged() {
             if (tasktimer.expired) {
                 expiredNotifier.play()
-                console.log("expired sound play")
+                console.log("expired sound play and show mut but")
+                muteBtnInsteadOfPause = true;
             } else {
                 expiredNotifier.stop()
+                muteBtnInsteadOfPause = false;
             }
         }
     }
@@ -132,11 +135,23 @@ ApplicationWindow {
 
                 MyButton {
                     id: btnTimerPause
-                    iconSource: "media/pause.png";
+                    iconSource: "media/pause.png"
+                    visible: !muteBtnInsteadOfPause
 
                     onClicked: {
                         console.log("PauseToggle");
                         tasktimer.togglePause();
+                    }
+                }
+                MyButton {
+                    id: btnTimerMute
+                    text: "mut"
+                    visible: muteBtnInsteadOfPause
+
+                    onClicked: {
+                        console.log("mute");
+                        expiredNotifier.stop();
+                        muteBtnInsteadOfPause = false;
                     }
                 }
 
@@ -183,7 +198,6 @@ ApplicationWindow {
                         focusWindow.show();
                     }
                 }
-
 
             }
 
