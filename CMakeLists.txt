@@ -8,9 +8,17 @@ find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup()
 
+if(APPLE)
+set(MACOSX_BUNDLE_ICON_FILE focusassisticon)
+set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/icons/focusassisticon.icns")
+set_source_files_properties(${app_icon_macos} PROPERTIES
+       MACOSX_PACKAGE_LOCATION "Resources")
+qt_add_executable(FocusAssist8 MACOSX_BUNDLE main.cpp ${app_icon_macos})
+else()
 qt_add_executable(FocusAssist8
     main.cpp
 )
+endif()
 
 qt_add_qml_module(FocusAssist8
     URI FocusAssist8
