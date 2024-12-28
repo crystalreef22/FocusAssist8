@@ -10,8 +10,8 @@ TaskTimer::TaskTimer(QObject *parent)
     this->m_running = false;
     this->m_expired = false;
     this->m_alarmSounding = false;
-    this->m_timeLeftDisplay = "00:00:00";
-    this->m_timeSetDisplay = "No timer set test";
+    this->m_timeLeftDisplay = "0:00:00";
+    this->m_timeSetDisplay = "0:00:00";
     this->m_expireAction = T_Expire_Action::ALARM;
 }
 
