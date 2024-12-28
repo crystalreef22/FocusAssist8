@@ -42,6 +42,19 @@ ApplicationWindow {
                 console.log("expired sound stop");
             }
         }
+        function onExpiredChanged() {
+            if (tasktimer.expired) {
+                switch (tasktimer.expireAction) {
+                    case TaskTimer.ALARM: break;
+                    case TaskTimer.SILENT: break;
+                    case TaskTimer.FOCUSWINDOW:
+                        focusWindow.show();
+                        break;
+                    default:
+                        console.log("asjdsadnlk not implemented");
+                }
+            }
+        }
     }
 
     TimeSelectDialog {
@@ -200,7 +213,7 @@ ApplicationWindow {
 
             ComboBox {
                 id: cmbExpireActionSelector
-                model: ["Alarm","Silence","Show Focus Window (nonfunctional)"]
+                model: ["Alarm","Silence","Show Focus Window"]
                 currentIndex: 0
                 onCurrentIndexChanged: function() {
                     console.log(currentIndex);
