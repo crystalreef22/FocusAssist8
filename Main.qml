@@ -69,7 +69,9 @@ ApplicationWindow {
 
     onClosing: function(close) {
         if(!closingAllowed) {
-            closeDialog.open();
+            if (!focusWindow.visible) {
+                closeDialog.open();
+            }
         }
 
         close.accepted = closingAllowed;
