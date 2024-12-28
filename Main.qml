@@ -197,6 +197,29 @@ ApplicationWindow {
                 }
 
             }
+
+            ComboBox {
+                id: cmbExpireActionSelector
+                model: ["Alarm","Silence","Show Focus Window (nonfunctional)"]
+                currentIndex: 0
+                onCurrentIndexChanged: function() {
+                    console.log(currentIndex);
+                    switch (currentIndex) {
+                        case 0:
+                            tasktimer.expireAction = TaskTimer.ALARM;
+                            break;
+                        case 1:
+                            tasktimer.expireAction = TaskTimer.SILENT;
+                            break;
+                        case 2:
+                            tasktimer.expireAction = TaskTimer.FOCUSWINDOW;
+                            break;
+                        default: console.log("ERR asjkdkjndan");
+                    }
+                    console.log("Changed expire action");
+                }
+            }
+
         }
 
     }
