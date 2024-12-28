@@ -13,7 +13,6 @@ ApplicationWindow {
     flags: Qt.WindowStaysOnTopHint
     title: qsTr("Focus Assist")
     property bool closingAllowed: false
-    property bool muteBtnInsteadOfPause: false
 
     MouseArea {
         anchors.fill: parent
@@ -33,14 +32,13 @@ ApplicationWindow {
 
     Connections {
         target: tasktimer
-        function onExpiredChanged() {
-            if (tasktimer.expired) {
-                expiredNotifier.play()
-                console.log("expired sound play and show mut but")
-                muteBtnInsteadOfPause = true;
+        function onAlarmSoundingChanged() {
+            if (tasktimer.alarmSounding) {
+                expiredNotifier.play();
+                console.log("expired sound play");
             } else {
-                expiredNotifier.stop()
-                muteBtnInsteadOfPause = false;
+                expiredNotifier.stop();
+                console.log("expired sound stop");
             }
         }
     }
@@ -136,7 +134,7 @@ ApplicationWindow {
                 MyButton {
                     id: btnTimerPause
                     iconSource: "media/pause.png"
-                    visible: !muteBtnInsteadOfPause
+                    visible: !btnTimerMute.visible;
 
                     onClicked: {
                         console.log("PauseToggle");
@@ -146,12 +144,10 @@ ApplicationWindow {
                 MyButton {
                     id: btnTimerMute
                     text: "mut"
-                    visible: muteBtnInsteadOfPause
-
+                    visible: tasktimer.alarmSounding;
                     onClicked: {
-                        console.log("mute");
-                        expiredNotifier.stop();
-                        muteBtnInsteadOfPause = false;
+                        console.log("mute did");
+                        tasktimer.alarmSilence();
                     }
                 }
 

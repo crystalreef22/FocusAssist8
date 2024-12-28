@@ -9,8 +9,10 @@ TaskTimer::TaskTimer(QObject *parent)
     this->last_elapsed = 0;
     this->m_running = false;
     this->m_expired = false;
+    this->m_alarmSounding = false;
     this->m_timeLeftDisplay = "00:00:00";
     this->m_timeSetDisplay = "No timer set test";
+    this->m_expireAction = T_Expire_Action::ALARM;
 }
 
 // ************************* UTILS *********************
@@ -62,6 +64,8 @@ void TaskTimer::reset(){
     emit runningChanged();
     m_expired = false;
     emit expiredChanged();
+    m_alarmSounding = false;
+    emit alarmSoundingChanged();
     updateDisplay();
     emit displayChanged();
 // ************************* SLOTS *********************
@@ -94,6 +98,15 @@ void TaskTimer::timeout(){
         m_expired = timerExpired;
         emit expiredChanged();
         qInfo("Expired changed");
+        if (timerExpired && m_expireAction == T_Expire_Action::ALARM) {
+            qInfo("Called alarm");
+            m_alarmSounding = true;
+            emit alarmSoundingChanged();
+        } else if (!timerExpired) {
+            qInfo("unCalled alarm");
+            m_alarmSounding = false;
+            emit alarmSoundingChanged();
+        }
     }
 
     //qInfo() << remainingSecs << timerExpired;
@@ -112,9 +125,7 @@ void TaskTimer::updateDisplay() {
     emit displayChanged();
 }
 
-long long TaskTimer::timerLength(){
-    return m_timerLength;
-}
+long long TaskTimer::timerLength(){ return m_timerLength; }
 
 void TaskTimer::setTimerLength(long long value){
     m_timerLength = value;
@@ -131,22 +142,28 @@ void TaskTimer::setTimerLength(long long value){
     emit timerLengthChanged();
 }
 
-QString TaskTimer::timeLeftDisplay(){
-    return m_timeLeftDisplay;
-}
-QString TaskTimer::timeSetDisplay(){
-    return m_timeSetDisplay;
+QString TaskTimer::timeLeftDisplay(){ return m_timeLeftDisplay; }
+QString TaskTimer::timeSetDisplay(){ return m_timeSetDisplay; }
+
+bool TaskTimer::running(){ return m_running; }
+
+bool TaskTimer::expired(){ return m_expired; }
+bool TaskTimer::alarmSounding() {return m_alarmSounding; }
+void TaskTimer::alarmSilence() {
+    m_alarmSounding = false;
+    emit alarmSoundingChanged();
 }
 
-bool TaskTimer::running(){
-    return m_running;
-}
-
-bool TaskTimer::expired(){
-    return m_expired;
-}
 double TaskTimer::timeLeftFraction(){
     double remaining = timerLength() - (m_watch.elapsed() + last_elapsed);
     return fmax(remaining / timerLength(), 0.0);
+}
+
+
+TaskTimer::T_Expire_Action TaskTimer::expireAction() { return m_expireAction; }
+
+void TaskTimer::setExpireAction(T_Expire_Action value) {
+    m_expireAction = value;
+    emit expireActionChanged();
 }
 
