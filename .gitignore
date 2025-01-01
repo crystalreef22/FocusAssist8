@@ -73,3 +73,7 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 
+# DO NOT IGNORE APP.RC AND APP.O IN ICONS
+
+!/icons/app.rc
+!/icons/app.o
