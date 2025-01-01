@@ -7,7 +7,7 @@ import QtMultimedia
 
 ApplicationWindow {
     id: root
-    width: 200; height: 110;
+    width: 200; height: 150;
     minimumWidth: 150; minimumHeight: 80;
     visible: true
     flags: Qt.Window
