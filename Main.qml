@@ -10,7 +10,13 @@ ApplicationWindow {
     width: 200; height: 110;
     minimumWidth: 150; minimumHeight: 80;
     visible: true
-    flags: Qt.WindowStaysOnTopHint
+    flags: Qt.Window
+               | Qt.WindowTitleHint
+               | Qt.WindowMinimizeButtonHint
+               | Qt.WindowMaximizeButtonHint
+               | Qt.WindowCloseButtonHint
+               | Qt.WindowStaysOnTopHint
+
     title: qsTr("Focus Assist")
     property bool closingAllowed: false
 
