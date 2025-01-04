@@ -2,6 +2,27 @@
 
 A work-in-progress focus timer.
 
+## Installation
+
+- First, download the file from [GitHub Releases](https://github.com/crystalreef22/FocusAssist8/releases/)
+
+### MacOS
+
+1. Open `FocusAssist8_<version>_mac.dmg`, drag the app to the Applications folder.
+
+2. Then, open a terminal and run
+`sudo xattr -r -d com.apple.quarantine /Applications/FocusAssist8.app`
+so that apple doesn't think the app is a damaged virus.
+
+### Windows
+
+- If you would like to try the app, download and extract `FocusAssist8_<version>_win_portable.zip` to any directory.
+- To install, download `FocusAssist8_<version>_win_installer.exe` (this was made with Inno Setup). Then, simply run the installer and follow the instructions.
+
+### Linux
+
+Open a Github issue and I'll make sure to build it for Linux someday
+
 ## Features & Usage
 
 Go set this app to display on all desktops. It is more useful that way.\
