@@ -93,160 +93,168 @@ ApplicationWindow {
     }
 
 
-    ColumnLayout {
-        anchors.fill: parent;
-        Rectangle {
-            Layout.fillWidth: true;
-            Layout.preferredHeight: 150;
-            color: tasktimer.expired ? "#ff0000" : "#ffeedd";
-
+    ScrollView {
+        anchors.fill:parent
+        contentWidth: availableWidth
+        ColumnLayout {
+            id: content
+            anchors.top: parent.top;
+            anchors.left: parent.left;
+            anchors.right: parent.right;
             Rectangle {
-                anchors.bottom: parent.bottom
-                anchors.top: parent.top
-                anchors.left: parent.left
-                width: parent.width * tasktimer.timeLeftFraction;
-                id: timeLeftBar;
-                color: "#eeabd0";
-                height: 10;
-                antialiasing: true;
-            }
+                Layout.fillWidth: true;
+                Layout.preferredHeight: 150;
+                color: tasktimer.expired ? "#ff0000" : "#ffeedd";
 
-            ColumnLayout{
-                id: mainDisplay;
-                anchors.fill: parent
-
-                Column {
-                    Layout.alignment: Qt.AlignHCenter;
-                    Text{
-                        text: tasktimer.timeLeftDisplay;
-                        horizontalAlignment: Text.AlignHCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        font.pointSize: 24;
-                    }
-                    Text{
-                        text: tasktimer.timeSetDisplay;
-                        horizontalAlignment: Text.AlignHCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        font.pointSize: 12;
-                    }
-                    TextField {
-                        id: timerName
-                        property string originalText: ""
-
-                        placeholderText: "timer name..."
-
-                        onActiveFocusChanged: {
-                            if (activeFocus) {
-                                originalText = this.text;
-                            }
-                        }
-
-                        Keys.onPressed: function(event){
-                            if (event.key === Qt.Key_Escape) {
-                                this.text = originalText;
-                                this.focus = false;
-                            } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                                this.focus = false;
-                            }
-                        }
-                    }
+                Rectangle {
+                    anchors.bottom: parent.bottom
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    width: parent.width * tasktimer.timeLeftFraction;
+                    id: timeLeftBar;
+                    color: "#eeabd0";
+                    height: 10;
+                    antialiasing: true;
                 }
 
-                Row {
-                    Layout.alignment: Qt.AlignRight;
+                ColumnLayout{
+                    id: mainDisplay;
+                    anchors.fill: parent
 
-                    MyButton {
-                        id: btnTimerPause
-                        iconSource: "media/pause.png"
-                        visible: !btnTimerMute.visible;
+                    Column {
+                        Layout.alignment: Qt.AlignHCenter;
+                        Text{
+                            text: tasktimer.timeLeftDisplay;
+                            horizontalAlignment: Text.AlignHCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.pointSize: 24;
+                            font.features: { "tnum": 1 }
+                        }
+                        Text{
+                            text: tasktimer.timeSetDisplay;
+                            horizontalAlignment: Text.AlignHCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.pointSize: 12;
+                        }
+                        TextField {
+                            id: timerName
+                            property string originalText: ""
 
-                        onClicked: {
-                            console.log("PauseToggle");
-                            tasktimer.togglePause();
+                            placeholderText: "timer name..."
+
+                            onActiveFocusChanged: {
+                                if (activeFocus) {
+                                    originalText = this.text;
+                                }
+                            }
+
+                            Keys.onPressed: function(event){
+                                if (event.key === Qt.Key_Escape) {
+                                    this.text = originalText;
+                                    this.focus = false;
+                                } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                                    this.focus = false;
+                                }
+                            }
                         }
                     }
-                    MyButton {
-                        id: btnTimerMute
-                        text: "mut"
-                        visible: tasktimer.alarmSounding;
-                        onClicked: {
-                            console.log("mute did");
-                            tasktimer.alarmSilence();
-                        }
-                    }
 
-                    MyButton {
-                        id: btnTimerCancel
-                        iconSource: "media/weird-horsecoint.png";
-                        onClicked: {
-                            console.log("Cancelled")
-                            tasktimer.reset()
-                        }
-                    }
-                    MyButton {
-                        id: btnTimerAddTime
-                        text: "+"
-                        onClicked: {
-                            console.log("Add to time 1 minute")
-                            tasktimer.timerLength += 60 * 1000;
+                    Row {
+                        Layout.alignment: Qt.AlignRight;
 
-                        }
-                    }
-                    MyButton {
-                        id: btnTimerSubTime
-                        text: "-"
-                        onClicked: {
-                            console.log("remove from time 1 minute")
-                            tasktimer.timerLength -=  60 * 1000;
+                        MyButton {
+                            id: btnTimerPause
+                            iconSource: "media/pause.png"
+                            visible: !btnTimerMute.visible;
 
+                            onClicked: {
+                                console.log("PauseToggle");
+                                tasktimer.togglePause();
+                            }
                         }
-                    }
-                    MyButton {
-                        id: btnTimeSelectDialog
-                        text: "sea"
-                        onClicked: { timeSelectDialog.show(); }
-                    }
-                    MyButton {
-                        id: btnUselessFocusWindow
-                        iconSource: "media/anotherday.png"
-                        /*
+                        MyButton {
+                            id: btnTimerMute
+                            text: "mut"
+                            visible: tasktimer.alarmSounding;
+                            onClicked: {
+                                console.log("mute did");
+                                tasktimer.alarmSilence();
+                            }
+                        }
+
+                        MyButton {
+                            id: btnTimerCancel
+                            iconSource: "media/weird-horsecoint.png";
+                            onClicked: {
+                                console.log("Cancelled")
+                                tasktimer.reset()
+                            }
+                        }
+                        MyButton {
+                            id: btnTimerAddTime
+                            text: "+"
+                            onClicked: {
+                                console.log("Add to time 1 minute")
+                                tasktimer.timerLength += 60 * 1000;
+
+                            }
+                        }
+                        MyButton {
+                            id: btnTimerSubTime
+                            text: "-"
+                            onClicked: {
+                                console.log("remove from time 1 minute")
+                                tasktimer.timerLength -=  60 * 1000;
+
+                            }
+                        }
+                        MyButton {
+                            id: btnTimeSelectDialog
+                            text: "sea"
+                            onClicked: { timeSelectDialog.show(); }
+                        }
+                        MyButton {
+                            id: btnUselessFocusWindow
+                            iconSource: "media/anotherday.png"
+                            /*
                     onClicked: {            var component = Qt.createComponent("UselessFocusWindow.qml")
                         var window    = component.createObject(root)
                         window.show()}
                     */
-                        onClicked: {
-                            focusWindow.show();
+                            onClicked: {
+                                focusWindow.show();
+                            }
+                        }
+
+                    }
+
+                    ComboBox {
+                        id: cmbExpireActionSelector
+                        model: ["Alarm","Silence","Show Focus Window"]
+                        currentIndex: 0
+                        onCurrentIndexChanged: function() {
+                            console.log(currentIndex);
+                            switch (currentIndex) {
+                            case 0:
+                                tasktimer.expireAction = TaskTimer.ALARM;
+                                break;
+                            case 1:
+                                tasktimer.expireAction = TaskTimer.SILENT;
+                                break;
+                            case 2:
+                                tasktimer.expireAction = TaskTimer.FOCUSWINDOW;
+                                break;
+                            default: console.log("ERR asjkdkjndan");
+                            }
+                            console.log("Changed expire action");
                         }
                     }
 
-                }
-
-                ComboBox {
-                    id: cmbExpireActionSelector
-                    model: ["Alarm","Silence","Show Focus Window"]
-                    currentIndex: 0
-                    onCurrentIndexChanged: function() {
-                        console.log(currentIndex);
-                        switch (currentIndex) {
-                        case 0:
-                            tasktimer.expireAction = TaskTimer.ALARM;
-                            break;
-                        case 1:
-                            tasktimer.expireAction = TaskTimer.SILENT;
-                            break;
-                        case 2:
-                            tasktimer.expireAction = TaskTimer.FOCUSWINDOW;
-                            break;
-                        default: console.log("ERR asjkdkjndan");
-                        }
-                        console.log("Changed expire action");
-                    }
                 }
 
             }
-
-        }
         SmallBarTimer{Layout.fillWidth:true}
+        }
     }
 }
 

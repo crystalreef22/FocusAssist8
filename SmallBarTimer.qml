@@ -92,7 +92,6 @@ Item {
                     width: 60
                     anchors.verticalCenter: parent.verticalCenter
                     font.pointSize: 12;
-                    font.features: { "tnum": 1 }
                     onClicked: { timeSelectDialog.show(); }
                 }
             }
