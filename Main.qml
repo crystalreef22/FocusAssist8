@@ -17,7 +17,7 @@ ApplicationWindow {
                | Qt.WindowCloseButtonHint
                | Qt.WindowStaysOnTopHint
 
-    title: qsTr("Focus Assist")
+    title: qsTr("FocusAssist8 v0.3.0")
     property bool closingAllowed: false
 
     MouseArea {
