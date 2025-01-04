@@ -2,10 +2,11 @@ import QtQuick 2.15
 import QtMultimedia
 import tasktimer 1.0
 import QtQuick.Layouts
+import QtQuick.Controls
 
 Item {
     id: bartimer
-    width: 200; height: 150;
+    implicitWidth: 200; implicitHeight: 34;
 
     TaskTimer {
         id: tasktimer;
@@ -47,7 +48,7 @@ Item {
 
     TimeSelectDialog {
         id: timeSelectDialog;
-        transientParent: root
+        transientParent: bartimer
         onChosen: {
             console.log(choiceTime)
             tasktimer.timerLength = choiceTime * 1000;
@@ -58,38 +59,41 @@ Item {
 
     Rectangle {
         anchors.fill: parent;
-        color: tasktimer.expired ? "#ff0000" : "#ffeedd";
+        color: tasktimer.expired ? "#ff0000" : "#ffddee";
 
         Rectangle {
             anchors.bottom: parent.bottom
             anchors.top: parent.top
             anchors.left: parent.left
-            width: Window.width * tasktimer.timeLeftFraction;
+            width: bartimer.width * tasktimer.timeLeftFraction;
             id: timeLeftBar;
             color: "#eeabd0";
             height: 10;
             antialiasing: true;
         }
 
-        ColumnLayout{
+        RowLayout{
             id: mainDisplay;
-            anchors.left: parent.left;
-            anchors.right:parent.right;
-            anchors.top:parent.top;
+            anchors.fill: parent
+            spacing:0;
 
-            Column {
-                Layout.alignment: Qt.AlignHCenter;
+            Row {
+                Layout.alignment: Qt.AlignLeft;
                 Text{
                     text: tasktimer.timeLeftDisplay;
                     horizontalAlignment: Text.AlignHCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.pointSize: 24;
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.pointSize: 18;
+                    font.features: { "tnum": 1 }
                 }
-                Text{
+                MyButton {
+                    id: btnTimeSetDisplay
                     text: tasktimer.timeSetDisplay;
-                    horizontalAlignment: Text.AlignHCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: 60
+                    anchors.verticalCenter: parent.verticalCenter
                     font.pointSize: 12;
+                    font.features: { "tnum": 1 }
+                    onClicked: { timeSelectDialog.show(); }
                 }
             }
 
@@ -97,7 +101,6 @@ Item {
                 Layout.alignment: Qt.AlignRight;
 
                 MyButton {
-                    id: btnTimerPause
                     iconSource: "media/pause.png"
                     visible: !btnTimerMute.visible;
 
@@ -123,29 +126,6 @@ Item {
                         console.log("Cancelled")
                         tasktimer.reset()
                     }
-                }
-                MyButton {
-                    id: btnTimerAddTime
-                    text: "+"
-                    onClicked: {
-                        console.log("Add to time 1 minute")
-                        tasktimer.timerLength += 60 * 1000;
-
-                    }
-                }
-                MyButton {
-                    id: btnTimerSubTime
-                    text: "-"
-                    onClicked: {
-                        console.log("remove from time 1 minute")
-                        tasktimer.timerLength -=  60 * 1000;
-
-                    }
-                }
-                MyButton {
-                    id: btnTimeSelectDialog
-                    text: "sea"
-                    onClicked: { timeSelectDialog.show(); }
                 }
 
             }
