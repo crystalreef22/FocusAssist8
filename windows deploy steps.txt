@@ -1,6 +1,9 @@
 1. make directory FocusAssist8\build\Desktop_Qt_6_8_1_MinGW_64_bit-Release\deploy
-2. open cmd in FocusAssist8\build\Desktop_Qt_6_8_1_MinGW_64_bit-Release
-3. C:\Qt\6.8.1\mingw_64\bin\windeployqt.exe --dir ./deploy FocusAssist8.exe
+2. open cmd in FocusAssist8
+3.
+
+C:\Qt\6.8.1\mingw_64\bin\windeployqt.exe --dir build\Desktop_Qt_6_8_1_MinGW_64_bit-Release\deploy build\Desktop_Qt_6_8_1_MinGW_64_bit-Release\FocusAssist8.exe --qmldir . --no-translations
+
 4. copy FocusAssist8.exe to deploy
 5. go into the folder, select all, send to compressed folder
 6. do the inno setup iss file and find the result in Output
