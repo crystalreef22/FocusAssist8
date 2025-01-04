@@ -40,6 +40,7 @@ qt_add_qml_module(FocusAssist8
         QML_FILES FocusWindow.qml
         media/anotherday.png
         QML_FILES SmallBarTimer.qml
+        RESOURCES media/viewmore.png
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

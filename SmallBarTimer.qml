@@ -120,23 +120,39 @@ Item {
                         tasktimer.alarmSilence();
                     }
                 }
-
                 MyButton {
-                    id: btnTimerCancel
-                    iconSource: "media/weird-horsecoint.png";
+                    id: btnAdditionalMenu
+                    iconSource: "media/viewmore.png"
+                    width: 25
                     onClicked: {
-                        console.log("Cancelled")
-                        tasktimer.reset()
+                        additionalMenu.visible = !additionalMenu.visible
+                    }
+                    Menu {
+                        popupType: Popup.Native
+                        id: additionalMenu
+                        y: btnAdditionalMenu.height
+                        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                        MenuItem {
+                            text: "Reset timer"
+                            onTriggered: tasktimer.reset();
+                        }
+                        Menu {
+                            title: "Change mode..."
+                            MenuItem {
+                                text: (tasktimer.expireAction === TaskTimer.ALARM ? "\u2713 " : "") + "Alarm"
+                                onTriggered: tasktimer.expireAction = TaskTimer.ALARM;
+                            }
+                            MenuItem {
+                                text: (tasktimer.expireAction === TaskTimer.SILENT ? "\u2713 " : "") + "Silence"
+                                onTriggered: tasktimer.expireAction = TaskTimer.SILENT;
+                            }
+                        }
+                        MenuItem {
+                            text: "Delete timer"
+                            onTriggered: bartimer.destroy();
+                        }
                     }
                 }
-                MyButton {
-                    id: btnTimerDel
-                    text: "del";
-                    onClicked: {
-                        bartimer.destroy();
-                    }
-                }
-
             }
 
         }
