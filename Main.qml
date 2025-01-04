@@ -8,7 +8,7 @@ import QtMultimedia
 ApplicationWindow {
     id: root
     width: 192; height: 200;
-    minimumWidth: 192; minimumHeight: 80;
+    minimumWidth: 192; minimumHeight: 150;
     visible: true
     flags: Qt.Window
                | Qt.WindowTitleHint
@@ -92,168 +92,182 @@ ApplicationWindow {
         onAccepted: {closingAllowed = true; Qt.quit();}
     }
 
+    ColumnLayout {
+        id: content
+        anchors.fill: parent;
+        Rectangle {
+            Layout.fillWidth: true;
+            Layout.preferredHeight: 150;
+            color: tasktimer.expired ? "#ff0000" : "#ffeedd";
 
-    ScrollView {
-        anchors.fill:parent
-        contentWidth: availableWidth
-        ColumnLayout {
-            id: content
-            anchors.top: parent.top;
-            anchors.left: parent.left;
-            anchors.right: parent.right;
             Rectangle {
-                Layout.fillWidth: true;
-                Layout.preferredHeight: 150;
-                color: tasktimer.expired ? "#ff0000" : "#ffeedd";
+                anchors.bottom: parent.bottom
+                anchors.top: parent.top
+                anchors.left: parent.left
+                width: parent.width * tasktimer.timeLeftFraction;
+                id: timeLeftBar;
+                color: "#eeabd0";
+                height: 10;
+                antialiasing: true;
+            }
 
-                Rectangle {
-                    anchors.bottom: parent.bottom
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    width: parent.width * tasktimer.timeLeftFraction;
-                    id: timeLeftBar;
-                    color: "#eeabd0";
-                    height: 10;
-                    antialiasing: true;
+            ColumnLayout{
+                id: mainDisplay;
+                anchors.fill: parent
+
+                Column {
+                    Layout.alignment: Qt.AlignHCenter;
+                    Text{
+                        text: tasktimer.timeLeftDisplay;
+                        horizontalAlignment: Text.AlignHCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pointSize: 24;
+                        font.features: { "tnum": 1 }
+                    }
+                    Text{
+                        text: tasktimer.timeSetDisplay;
+                        horizontalAlignment: Text.AlignHCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pointSize: 12;
+                    }
+                    TextField {
+                        id: timerName
+                        property string originalText: ""
+
+                        placeholderText: "timer name..."
+
+                        onActiveFocusChanged: {
+                            if (activeFocus) {
+                                originalText = this.text;
+                            }
+                        }
+
+                        Keys.onPressed: function(event){
+                            if (event.key === Qt.Key_Escape) {
+                                this.text = originalText;
+                                this.focus = false;
+                            } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                                this.focus = false;
+                            }
+                        }
+                    }
                 }
 
-                ColumnLayout{
-                    id: mainDisplay;
-                    anchors.fill: parent
+                Row {
+                    Layout.alignment: Qt.AlignRight;
 
-                    Column {
-                        Layout.alignment: Qt.AlignHCenter;
-                        Text{
-                            text: tasktimer.timeLeftDisplay;
-                            horizontalAlignment: Text.AlignHCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            font.pointSize: 24;
-                            font.features: { "tnum": 1 }
+                    MyButton {
+                        id: btnTimerPause
+                        iconSource: "media/pause.png"
+                        visible: !btnTimerMute.visible;
+
+                        onClicked: {
+                            console.log("PauseToggle");
+                            tasktimer.togglePause();
                         }
-                        Text{
-                            text: tasktimer.timeSetDisplay;
-                            horizontalAlignment: Text.AlignHCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            font.pointSize: 12;
-                        }
-                        TextField {
-                            id: timerName
-                            property string originalText: ""
-
-                            placeholderText: "timer name..."
-
-                            onActiveFocusChanged: {
-                                if (activeFocus) {
-                                    originalText = this.text;
-                                }
-                            }
-
-                            Keys.onPressed: function(event){
-                                if (event.key === Qt.Key_Escape) {
-                                    this.text = originalText;
-                                    this.focus = false;
-                                } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                                    this.focus = false;
-                                }
-                            }
+                    }
+                    MyButton {
+                        id: btnTimerMute
+                        text: "mut"
+                        visible: tasktimer.alarmSounding;
+                        onClicked: {
+                            console.log("mute did");
+                            tasktimer.alarmSilence();
                         }
                     }
 
-                    Row {
-                        Layout.alignment: Qt.AlignRight;
-
-                        MyButton {
-                            id: btnTimerPause
-                            iconSource: "media/pause.png"
-                            visible: !btnTimerMute.visible;
-
-                            onClicked: {
-                                console.log("PauseToggle");
-                                tasktimer.togglePause();
-                            }
+                    MyButton {
+                        id: btnTimerCancel
+                        iconSource: "media/weird-horsecoint.png";
+                        onClicked: {
+                            console.log("Cancelled")
+                            tasktimer.reset()
                         }
-                        MyButton {
-                            id: btnTimerMute
-                            text: "mut"
-                            visible: tasktimer.alarmSounding;
-                            onClicked: {
-                                console.log("mute did");
-                                tasktimer.alarmSilence();
-                            }
-                        }
-
-                        MyButton {
-                            id: btnTimerCancel
-                            iconSource: "media/weird-horsecoint.png";
-                            onClicked: {
-                                console.log("Cancelled")
-                                tasktimer.reset()
-                            }
-                        }
-                        MyButton {
-                            id: btnTimerAddTime
-                            text: "+"
-                            onClicked: {
-                                console.log("Add to time 1 minute")
-                                tasktimer.timerLength += 60 * 1000;
-
-                            }
-                        }
-                        MyButton {
-                            id: btnTimerSubTime
-                            text: "-"
-                            onClicked: {
-                                console.log("remove from time 1 minute")
-                                tasktimer.timerLength -=  60 * 1000;
-
-                            }
-                        }
-                        MyButton {
-                            id: btnTimeSelectDialog
-                            text: "sea"
-                            onClicked: { timeSelectDialog.show(); }
-                        }
-                        MyButton {
-                            id: btnUselessFocusWindow
-                            iconSource: "media/anotherday.png"
-                            /*
-                    onClicked: {            var component = Qt.createComponent("UselessFocusWindow.qml")
-                        var window    = component.createObject(root)
-                        window.show()}
-                    */
-                            onClicked: {
-                                focusWindow.show();
-                            }
-                        }
-
                     }
+                    MyButton {
+                        id: btnTimerAddTime
+                        text: "+"
+                        onClicked: {
+                            console.log("Add to time 1 minute")
+                            tasktimer.timerLength += 60 * 1000;
 
-                    ComboBox {
-                        id: cmbExpireActionSelector
-                        model: ["Alarm","Silence","Show Focus Window"]
-                        currentIndex: 0
-                        onCurrentIndexChanged: function() {
-                            console.log(currentIndex);
-                            switch (currentIndex) {
-                            case 0:
-                                tasktimer.expireAction = TaskTimer.ALARM;
-                                break;
-                            case 1:
-                                tasktimer.expireAction = TaskTimer.SILENT;
-                                break;
-                            case 2:
-                                tasktimer.expireAction = TaskTimer.FOCUSWINDOW;
-                                break;
-                            default: console.log("ERR asjkdkjndan");
-                            }
-                            console.log("Changed expire action");
+                        }
+                    }
+                    MyButton {
+                        id: btnTimerSubTime
+                        text: "-"
+                        onClicked: {
+                            console.log("remove from time 1 minute")
+                            tasktimer.timerLength -=  60 * 1000;
+
+                        }
+                    }
+                    MyButton {
+                        id: btnTimeSelectDialog
+                        text: "sea"
+                        onClicked: { timeSelectDialog.show(); }
+                    }
+                    MyButton {
+                        id: btnUselessFocusWindow
+                        iconSource: "media/anotherday.png"
+                        /*
+                onClicked: {            var component = Qt.createComponent("UselessFocusWindow.qml")
+                    var window    = component.createObject(root)
+                    window.show()}
+                */
+                        onClicked: {
+                            focusWindow.show();
                         }
                     }
 
+                }
+
+                ComboBox {
+                    id: cmbExpireActionSelector
+                    model: ["Alarm","Silence","Show Focus Window"]
+                    currentIndex: 0
+                    onCurrentIndexChanged: function() {
+                        console.log(currentIndex);
+                        switch (currentIndex) {
+                        case 0:
+                            tasktimer.expireAction = TaskTimer.ALARM;
+                            break;
+                        case 1:
+                            tasktimer.expireAction = TaskTimer.SILENT;
+                            break;
+                        case 2:
+                            tasktimer.expireAction = TaskTimer.FOCUSWINDOW;
+                            break;
+                        default: console.log("ERR asjkdkjndan");
+                        }
+                        console.log("Changed expire action");
+                    }
                 }
 
             }
-        SmallBarTimer{Layout.fillWidth:true}
+
+        }
+        ColumnLayout {
+            Layout.fillWidth: true;
+            Layout.fillHeight: true;
+            spacing:0
+            ScrollView {
+                Layout.fillWidth: true;
+                Layout.fillHeight: true;
+                contentWidth: availableWidth
+                ColumnLayout {
+                    anchors.fill: parent
+                    id: smallBarTimerHolder
+                }
+            }
+            MyButton {
+                text: "Add new timer";
+                Layout.fillWidth: true;
+                onClicked: {
+                    var component = Qt.createComponent("SmallBarTimer.qml")
+                    var item      = component.createObject(smallBarTimerHolder)
+                }
+            }
         }
     }
 }

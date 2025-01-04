@@ -7,6 +7,9 @@ import QtQuick.Controls
 Item {
     id: bartimer
     implicitWidth: 200; implicitHeight: 34;
+    Layout.fillWidth: true;
+    activeFocusOnTab: true;
+    property bool timerExpired: tasktimer.expired;
 
     TaskTimer {
         id: tasktimer;
@@ -124,6 +127,13 @@ Item {
                     onClicked: {
                         console.log("Cancelled")
                         tasktimer.reset()
+                    }
+                }
+                MyButton {
+                    id: btnTimerDel
+                    text: "del";
+                    onClicked: {
+                        bartimer.destroy();
                     }
                 }
 
