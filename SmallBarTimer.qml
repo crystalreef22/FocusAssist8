@@ -86,7 +86,7 @@ Item {
                     text: tasktimer.timeLeftDisplay;
                     horizontalAlignment: Text.AlignHCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 18;
+                    font.pointSize: 16;
                     font.features: { "tnum": 1 }
                 }
                 MyButton {
@@ -94,7 +94,7 @@ Item {
                     text: tasktimer.timeSetDisplay;
                     width: 60
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 12;
+                    font.pointSize: 10;
                     onClicked: { timeSelectDialog.show(); }
                 }
             }
