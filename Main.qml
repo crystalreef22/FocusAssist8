@@ -11,9 +11,11 @@ ApplicationWindow {
     minimumWidth: 192; minimumHeight: 150;
     visible: true
     flags: Qt.Window
+               | Qt.CustomizeWindowHint
                | Qt.WindowTitleHint
-               | Qt.WindowMinimizeButtonHint
+               //| Qt.WindowMinimizeButtonHint
                | Qt.WindowMaximizeButtonHint
+               | Qt.WindowFullscreenButtonHint // macos. TEST ON WINDOWS
                | Qt.WindowCloseButtonHint
                | Qt.WindowStaysOnTopHint
 
@@ -76,6 +78,7 @@ ApplicationWindow {
     onClosing: function(close) {
         if(!closingAllowed) {
             if (!focusWindow.visible) {
+                root.show();
                 closeDialog.open();
             }
         }
@@ -208,15 +211,25 @@ ApplicationWindow {
                         onClicked: { timeSelectDialog.show(); }
                     }
                     MyButton {
-                        id: btnUselessFocusWindow
+                        id: btnCloseMenu
                         iconSource: "media/anotherday.png"
-                        /*
-                onClicked: {            var component = Qt.createComponent("UselessFocusWindow.qml")
-                    var window    = component.createObject(root)
-                    window.show()}
-                */
                         onClicked: {
-                            focusWindow.show();
+                            closeMenu.visible = !closeMenu.visible
+                        }
+
+                        Menu {
+                            popupType: Popup.Native
+                            id: closeMenu
+                            y: btnCloseMenu.height
+                            closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                            MenuItem {
+                                text: "Show Focus Window"
+                                onTriggered: focusWindow.show();
+                            }
+                            MenuItem {
+                                text: "Snooze Window"
+                                onTriggered: root.hide();
+                            }
                         }
                     }
 
