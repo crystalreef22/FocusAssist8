@@ -146,6 +146,10 @@ Item {
                                 text: (tasktimer.expireAction === TaskTimer.SILENT ? "\u2713 " : "") + "Silence"
                                 onTriggered: tasktimer.expireAction = TaskTimer.SILENT;
                             }
+                            MenuItem {
+                                text: (tasktimer.expireAction === TaskTimer.REPEATING ? "\u2713 " : "") + "Repeating"
+                                onTriggered: tasktimer.expireAction = TaskTimer.REPEATING;
+                            }
                         }
                         MenuItem {
                             text: "Delete timer"

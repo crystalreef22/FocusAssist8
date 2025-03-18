@@ -29,7 +29,8 @@ public:
     enum T_Expire_Action {
         SILENT,
         ALARM,
-        FOCUSWINDOW
+        FOCUSWINDOW,
+        REPEATING
     };
     Q_ENUM(T_Expire_Action)
 

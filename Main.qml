@@ -237,7 +237,7 @@ ApplicationWindow {
 
                 ComboBox {
                     id: cmbExpireActionSelector
-                    model: ["Alarm","Silence","Show Focus Window"]
+                    model: ["Alarm","Silence","Show Focus Window", "Repeat"]
                     currentIndex: 0
                     onCurrentIndexChanged: function() {
                         console.log(currentIndex);
@@ -250,6 +250,9 @@ ApplicationWindow {
                             break;
                         case 2:
                             tasktimer.expireAction = TaskTimer.FOCUSWINDOW;
+                            break;
+                        case 3:
+                            tasktimer.expireAction = TaskTimer.REPEATING;
                             break;
                         default: console.log("ERR asjkdkjndan");
                         }

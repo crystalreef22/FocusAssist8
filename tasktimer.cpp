@@ -75,7 +75,7 @@ void TaskTimer::togglePause(){
 
     if(m_expired){
         this->reset();
-        qWarning() << "TaskTimer.cpp: Actually I expired: resetting...";
+        qInfo() << "TaskTimer.cpp: Actually I expired: resetting...";
         return;
     }
 
@@ -93,6 +93,13 @@ void TaskTimer::timeout(){
     long long remainingSecs = (timerExpired ? (remaining) : (remaining+999)) / 1000;
     m_timeLeftDisplay = secsLeftToString(remainingSecs);
     emit displayChanged();
+
+    if(m_expireAction == T_Expire_Action::REPEATING && timerExpired) {
+        last_elapsed -= timerLength();
+        qInfo("reset bc repeat mode");
+        this->updateDisplay();
+        return;
+    }
 
     if (m_expired != timerExpired){
         m_expired = timerExpired;
