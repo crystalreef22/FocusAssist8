@@ -34,8 +34,32 @@ ApplicationWindow {
     ListModel {
         id: soundModel
         ListElement { name: "Silent"; source: "" }
-        ListElement { name: "Meditiation Bell"; source: "media/snd_meditationbell.mp3" }
-        ListElement { name: "Decaying Waves"; source: "media/snd_decayingwaves.mp3" }
+
+        ListElement { name: "Meditation Bell (short)"; source: "media/ntf_meditationbell.mp3" }
+        ListElement { name: "bell (short)"; source: "media/ntf_bell.mp3" }
+        ListElement { name: "chirp (short)"; source: "media/ntf_chirp.mp3" }
+        ListElement { name: "decaying waves (short)"; source: "media/ntf_decayingwaves.mp3" }
+        ListElement { name: "lidar (short)"; source: "media/ntf_lidar.mp3" }
+        ListElement { name: "another thing"; source: "media/alm_anotherthing.mp3" }
+        ListElement { name: "arpalarm"; source: "media/alm_arpalarm.mp3" }
+        ListElement { name: "bassec"; source: "media/alm_bassec.mp3" }
+        ListElement { name: "brighter fields"; source: "media/alm_brighterfields.mp3" }
+        ListElement { name: "casdd"; source: "media/alm_casdd.mp3" }
+        ListElement { name: "decaying waves"; source: "media/alm_decayingwaves.mp3" }
+        ListElement { name: "epambient"; source: "media/alm_epambient.mp3" }
+        ListElement { name: "focus"; source: "media/alm_focus.mp3" }
+        ListElement { name: "lidar"; source: "media/alm_lidar.mp3" }
+        ListElement { name: "lighthouse"; source: "media/alm_lighthouse.mp3" }
+        ListElement { name: "marching on"; source: "media/alm_marchingon.mp3" }
+        ListElement { name: "new year sunrise"; source: "media/alm_newyearsunrise.mp3" }
+        ListElement { name: "nightbloom"; source: "media/alm_nightbloom.mp3" }
+        ListElement { name: "refring"; source: "media/alm_refring.mp3" }
+        ListElement { name: "showcase"; source: "media/alm_showcase.mp3" }
+        ListElement { name: "spinning"; source: "media/alm_spinning.mp3" }
+        ListElement { name: "stars"; source: "media/alm_stars.mp3" }
+        ListElement { name: "storm brewing"; source: "media/alm_stormbrewing.mp3" }
+        ListElement { name: "testerd"; source: "media/alm_testerd.mp3" }
+
     }
     property int soundModelActiveIndex: 0;
 

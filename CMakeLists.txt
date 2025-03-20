@@ -33,16 +33,41 @@ qt_add_qml_module(FocusAssist8
         Main.qml
     RESOURCES
         media/icn_reset.png
-        media/snd_decayingwaves.mp3
         media/icn_pause.png
         media/icn_anotherday.png
         media/icn_viewmore.png
+
+        media/ntf_meditationbell.mp3
+        media/ntf_bell.mp3
+        media/ntf_chirp.mp3
+        media/ntf_decayingwaves.mp3
+        media/ntf_lidar.mp3
+
+        media/alm_anotherthing.mp3
+        media/alm_arpalarm.mp3
+        media/alm_bassec.mp3
+        media/alm_brighterfields.mp3
+        media/alm_casdd.mp3
+        media/alm_decayingwaves.mp3
+        media/alm_epambient.mp3
+        media/alm_focus.mp3
+        media/alm_lidar.mp3
+        media/alm_lighthouse.mp3
+        media/alm_marchingon.mp3
+        media/alm_newyearsunrise.mp3
+        media/alm_nightbloom.mp3
+        media/alm_refring.mp3
+        media/alm_showcase.mp3
+        media/alm_spinning.mp3
+        media/alm_stars.mp3
+        media/alm_stormbrewing.mp3
+        media/alm_testerd.mp3
+
         SOURCES tasktimer.h tasktimer.cpp
         QML_FILES TimeSelectDialog.qml
         QML_FILES MyButton.qml
         QML_FILES FocusWindow.qml
         QML_FILES SmallBarTimer.qml
-        RESOURCES media/snd_meditationbell.mp3
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
