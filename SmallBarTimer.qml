@@ -18,8 +18,8 @@ Item {
     ListModel {
         id: soundModel
         ListElement { name: "Silent"; source: "" }
-        ListElement { name: "Meditiation Bell"; source: "media/meditationbell.mp3" }
-        ListElement { name: "Decaying Waves"; source: "media/Decayingwaves.mp3" }
+        ListElement { name: "Meditiation Bell"; source: "media/snd_meditationbell.mp3" }
+        ListElement { name: "Decaying Waves"; source: "media/snd_decayingwaves.mp3" }
     }
     property int soundModelActiveIndex: 0;
 
@@ -116,7 +116,7 @@ Item {
                 Layout.alignment: Qt.AlignRight;
 
                 MyButton {
-                    iconSource: "media/pause.png"
+                    iconSource: "media/icn_pause.png"
                     visible: !btnTimerMute.visible;
 
                     onClicked: {
@@ -135,7 +135,7 @@ Item {
                 }
                 MyButton {
                     id: btnAdditionalMenu
-                    iconSource: "media/viewmore.png"
+                    iconSource: "media/icn_viewmore.png"
                     width: 25
                     onClicked: {
                         additionalMenu.visible = !additionalMenu.visible

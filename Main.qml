@@ -34,8 +34,8 @@ ApplicationWindow {
     ListModel {
         id: soundModel
         ListElement { name: "Silent"; source: "" }
-        ListElement { name: "Meditiation Bell"; source: "media/meditationbell.mp3" }
-        ListElement { name: "Decaying Waves"; source: "media/Decayingwaves.mp3" }
+        ListElement { name: "Meditiation Bell"; source: "media/snd_meditationbell.mp3" }
+        ListElement { name: "Decaying Waves"; source: "media/snd_decayingwaves.mp3" }
     }
     property int soundModelActiveIndex: 0;
 
@@ -174,7 +174,7 @@ ApplicationWindow {
 
                     MyButton {
                         id: btnTimerPause
-                        iconSource: "media/pause.png"
+                        iconSource: "media/icn_pause.png"
                         visible: !btnTimerMute.visible;
 
                         onClicked: {
@@ -194,7 +194,7 @@ ApplicationWindow {
 
                     MyButton {
                         id: btnTimerCancel
-                        iconSource: "media/weird-horsecoint.png";
+                        iconSource: "media/icn_reset.png";
                         onClicked: {
                             console.log("Cancelled")
                             tasktimer.reset()
@@ -220,12 +220,12 @@ ApplicationWindow {
                     }
                     MyButton {
                         id: btnTimeSelectDialog
-                        iconSource: "media/anotherday.png"
+                        iconSource: "media/icn_anotherday.png"
                         onClicked: { timeSelectDialog.show(); }
                     }
                     MyButton {
                         id: btnCloseMenu
-                        iconSource: "media/viewmore.png"
+                        iconSource: "media/icn_viewmore.png"
                         onClicked: {
                             closeMenu.visible = !closeMenu.visible
                         }
