@@ -18,12 +18,12 @@ TaskTimer::TaskTimer(QObject *parent)
 // ************************* UTILS *********************
 
 QString TaskTimer::secsLeftToString(long long secs){
-    QString positiveIndicator = secs < 0 ? QString("\u2212") : QString("0");
+    QString positiveIndicator = secs < 0 ? QString("\u2212") : QString("");
     secs = std::abs(secs);
     long long hours = secs/3600;
     long long minutes = (secs/60)%60;
     long long seconds = (secs)%60;
-    return positiveIndicator + QString("%3:%2:%1").arg(seconds, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0')).arg(hours);
+    return positiveIndicator + QString("%3:%2:%1").arg(seconds, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0')).arg(hours, 2, 10, QChar('0'));
 }
 
 
