@@ -36,12 +36,11 @@ The blue buttons, in order from left to right, do the following:
 3. Add one minute
 4. Remove one minute
 5. Set the timer
-6. Show Focus Window
+6. Additional stuff
 
 Modes:
 
-- Alarm: play a ringtone when the timer expires
-- Silence: same, but no sound plays
+- Alarm: play a ringtone when the timer expires (unless ringtone is silence)
 - Show Focus Window: show focus window when expires
 
 ### Focus Window
@@ -50,4 +49,6 @@ When active, this will cover the entire screen and stop you from doing anything 
 
 -----
 
-That is all for now.
+## Attribution
+
+I made all the alarm sounds except for the meditation bell (https://freesound.org/s/202017)
