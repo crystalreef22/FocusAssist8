@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "FocusAssist8"
-#define MyAppVersion "0.3.0"
+#define MyAppVersion "0.3.2"
 #define MyAppURL "https://github.com/crystalreef22/FocusAssist8"
 #define MyAppExeName "FocusAssist8.exe"
 

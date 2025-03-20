@@ -189,17 +189,27 @@ Item {
                             }
                         }
                         Menu {
-                            title: "Sound effect"
-                            Repeater {
-                                model: soundModel
-                                MenuItem {
-                                    text: model.name
-                                    checkable: true
-                                    checked: model.index === soundModelActiveIndex;
-                                    onTriggered: soundModelActiveIndex = model.index;
+                            title: "media settings"
+                            MenuItem {
+                                id: loopAlarmSoundsCheckbox
+                                text: "Loop alarm sounds"
+                                checkable: true
+                                checked: false
+                            }
+                            Menu {
+                                title: "Sound effect"
+                                Repeater {
+                                    model: soundModel
+                                    MenuItem {
+                                        text: model.name
+                                        checkable: true
+                                        checked: model.index === soundModelActiveIndex;
+                                        onTriggered: soundModelActiveIndex = model.index;
+                                    }
                                 }
                             }
                         }
+
 
                         MenuItem {
                             text: "Delete timer"
