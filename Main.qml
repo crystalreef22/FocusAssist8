@@ -13,7 +13,7 @@ ApplicationWindow {
     flags: Qt.Window
                | Qt.CustomizeWindowHint
                | Qt.WindowTitleHint
-               | Qt.WindowMinimizeButtonHint
+               //| Qt.WindowMinimizeButtonHint
                | Qt.WindowMaximizeButtonHint
                | Qt.WindowFullscreenButtonHint // macos. TEST ON WINDOWS
                | Qt.WindowCloseButtonHint
@@ -89,6 +89,8 @@ ApplicationWindow {
         }
         function onExpiredChanged() {
             if (tasktimer.expired) {
+                if (root.visibility === Window.Minimized)
+                    showNormal();
                 switch (tasktimer.expireAction) {
                     case TaskTimer.ALARM: break;
                     case TaskTimer.SILENT: break;
@@ -286,8 +288,8 @@ ApplicationWindow {
                                 onTriggered: focusWindow.show();
                             }
                             MenuItem {
-                                text: "Snooze Window"
-                                onTriggered: root.hide();
+                                text: "Minimize until main timer rings"
+                                onTriggered: root.showMinimized();
                             }
                         }
                     }
