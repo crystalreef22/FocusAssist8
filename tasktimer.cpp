@@ -98,6 +98,9 @@ void TaskTimer::timeout(){
         last_elapsed -= timerLength();
         qInfo("reset bc repeat mode");
         this->updateDisplay();
+        qInfo("Called alarm");
+        m_alarmSounding = true;
+        emit alarmSoundingChanged();
         return;
     }
 

@@ -13,7 +13,7 @@ ApplicationWindow {
     flags: Qt.Window
                | Qt.CustomizeWindowHint
                | Qt.WindowTitleHint
-               //| Qt.WindowMinimizeButtonHint
+               | Qt.WindowMinimizeButtonHint
                | Qt.WindowMaximizeButtonHint
                | Qt.WindowFullscreenButtonHint // macos. TEST ON WINDOWS
                | Qt.WindowCloseButtonHint
@@ -31,11 +31,22 @@ ApplicationWindow {
         id: tasktimer;
     }
 
+    ListModel {
+        id: soundModel
+        ListElement { name: "Silent"; source: "" }
+        ListElement { name: "Meditiation Bell"; source: "media/meditationbell.mp3" }
+        ListElement { name: "Decaying Waves"; source: "media/Decayingwaves.mp3" }
+    }
+    property int soundModelActiveIndex: 2;
+
     MediaPlayer {
         id: expiredNotifier;
         audioOutput: AudioOutput { device: mediaDevices.defaultAudioOutput }
-        source: "media/Decayingwaves.mp3"
-        loops: 3;//MediaPlayer.Infinite;
+        source: soundModel.get(soundModelActiveIndex).source;
+        loops: loopAlarmSoundsCheckbox.checked ? MediaPlayer.Infinite : 1;
+        onPlayingChanged: function(playing) {
+            if (!playing) tasktimer.alarmSilence(); // problem is that this will call onAlarmSoundingChanged
+        }
     }
     MediaDevices { id: mediaDevices }
 
@@ -43,8 +54,10 @@ ApplicationWindow {
         target: tasktimer
         function onAlarmSoundingChanged() {
             if (tasktimer.alarmSounding) {
-                expiredNotifier.play();
-                console.log("expired sound play");
+                if (!soundModelActiveIndex !== 0) {
+                    expiredNotifier.play();
+                    console.log("expired sound play");
+                }
             } else {
                 expiredNotifier.stop();
                 console.log("expired sound stop");
@@ -207,12 +220,12 @@ ApplicationWindow {
                     }
                     MyButton {
                         id: btnTimeSelectDialog
-                        text: "sea"
+                        iconSource: "media/anotherday.png"
                         onClicked: { timeSelectDialog.show(); }
                     }
                     MyButton {
                         id: btnCloseMenu
-                        iconSource: "media/anotherday.png"
+                        iconSource: "media/viewmore.png"
                         onClicked: {
                             closeMenu.visible = !closeMenu.visible
                         }
@@ -222,6 +235,28 @@ ApplicationWindow {
                             id: closeMenu
                             y: btnCloseMenu.height
                             closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                            Menu {
+                                title: "Media settings"
+                                MenuItem {
+                                    id: loopAlarmSoundsCheckbox
+                                    text: "Loop alarm sounds"
+                                    checkable: true
+                                    checked: false
+                                }
+                                Menu {
+                                    title: "Sound effect"
+                                    Repeater {
+                                        model: soundModel
+                                        MenuItem {
+                                            text: model.name
+                                            checkable: true
+                                            checked: model.index === soundModelActiveIndex;
+                                            onTriggered: soundModelActiveIndex = model.index;
+                                        }
+                                    }
+                                }
+                            }
+
                             MenuItem {
                                 text: "Show Focus Window"
                                 onTriggered: focusWindow.show();
@@ -237,7 +272,7 @@ ApplicationWindow {
 
                 ComboBox {
                     id: cmbExpireActionSelector
-                    model: ["Alarm","Silence","Show Focus Window", "Repeat"]
+                    model: ["Alarm","Show Focus Window", "Repeat"]
                     currentIndex: 0
                     onCurrentIndexChanged: function() {
                         console.log(currentIndex);
@@ -246,12 +281,9 @@ ApplicationWindow {
                             tasktimer.expireAction = TaskTimer.ALARM;
                             break;
                         case 1:
-                            tasktimer.expireAction = TaskTimer.SILENT;
-                            break;
-                        case 2:
                             tasktimer.expireAction = TaskTimer.FOCUSWINDOW;
                             break;
-                        case 3:
+                        case 2:
                             tasktimer.expireAction = TaskTimer.REPEATING;
                             break;
                         default: console.log("ERR asjkdkjndan");
