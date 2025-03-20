@@ -15,11 +15,22 @@ Item {
         id: tasktimer;
     }
 
+    ListModel {
+        id: soundModel
+        ListElement { name: "Silent"; source: "" }
+        ListElement { name: "Meditiation Bell"; source: "media/meditationbell.mp3" }
+        ListElement { name: "Decaying Waves"; source: "media/Decayingwaves.mp3" }
+    }
+    property int soundModelActiveIndex: 0;
+
     MediaPlayer {
         id: expiredNotifier;
         audioOutput: AudioOutput { device: mediaDevices.defaultAudioOutput }
-        source: "media/Decayingwaves.mp3"
-        loops: 3;//MediaPlayer.Infinite;
+        source: soundModel.get(soundModelActiveIndex).source;
+        loops: loopAlarmSoundsCheckbox.checked ? MediaPlayer.Infinite : 1;
+        onPlayingChanged: function(playing) {
+            if (!playing) tasktimer.alarmSilence(); // problem is that this will call onAlarmSoundingChanged
+        }
     }
     MediaDevices { id: mediaDevices }
 
@@ -27,8 +38,10 @@ Item {
         target: tasktimer
         function onAlarmSoundingChanged() {
             if (tasktimer.alarmSounding) {
-                expiredNotifier.play();
-                console.log("expired sound play");
+                if (!soundModelActiveIndex !== 0) {
+                    expiredNotifier.play();
+                    console.log("expired sound play");
+                }
             } else {
                 expiredNotifier.stop();
                 console.log("expired sound stop");
@@ -139,18 +152,31 @@ Item {
                         Menu {
                             title: "Change mode..."
                             MenuItem {
-                                text: (tasktimer.expireAction === TaskTimer.ALARM ? "\u2713 " : "") + "Alarm"
+                                text: "Alarm"
+                                checkable: true
+                                checked: tasktimer.expireAction === TaskTimer.ALARM
                                 onTriggered: tasktimer.expireAction = TaskTimer.ALARM;
                             }
                             MenuItem {
-                                text: (tasktimer.expireAction === TaskTimer.SILENT ? "\u2713 " : "") + "Silence"
-                                onTriggered: tasktimer.expireAction = TaskTimer.SILENT;
-                            }
-                            MenuItem {
-                                text: (tasktimer.expireAction === TaskTimer.REPEATING ? "\u2713 " : "") + "Repeating"
+                                text: "Repeating"
+                                checkable: true
+                                checked: tasktimer.expireAction === TaskTimer.REPEATING
                                 onTriggered: tasktimer.expireAction = TaskTimer.REPEATING;
                             }
                         }
+                        Menu {
+                            title: "Sound effect"
+                            Repeater {
+                                model: soundModel
+                                MenuItem {
+                                    text: model.name
+                                    checkable: true
+                                    checked: model.index === soundModelActiveIndex;
+                                    onTriggered: soundModelActiveIndex = model.index;
+                                }
+                            }
+                        }
+
                         MenuItem {
                             text: "Delete timer"
                             onTriggered: bartimer.destroy();

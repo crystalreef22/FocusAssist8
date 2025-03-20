@@ -37,7 +37,7 @@ ApplicationWindow {
         ListElement { name: "Meditiation Bell"; source: "media/meditationbell.mp3" }
         ListElement { name: "Decaying Waves"; source: "media/Decayingwaves.mp3" }
     }
-    property int soundModelActiveIndex: 2;
+    property int soundModelActiveIndex: 0;
 
     MediaPlayer {
         id: expiredNotifier;
